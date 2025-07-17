@@ -26,30 +26,55 @@ class Controlador:
     def grafico_ano(self, ano):
         dados = self.gastos[self.gastos["Data"].dt.strftime("%Y") == f"{ano}"]
         meses = {
-            "01": "Jan",
-            "02": "Fev",
-            "03": "Mar",
-            "04": "Abr",
-            "05": "Mai",
-            "06": "Jun",
-            "07": "Jul",
-            "08": "Ago",
-            "09": "Set",
-            "10": "Out",
-            "11": "Nov",
-            "12": "Dez",
+            1: "Jan",
+            2: "Fev",
+            3: "Mar",
+            4: "Abr",
+            5: "Mai",
+            6: "Jun",
+            7: "Jul",
+            8: "Ago",
+            9: "Set",
+            10: "Out",
+            11: "Nov",
+            12: "Dez",
         }
         dados["Mês"] = pd.DatetimeIndex(dados["Data"]).month
         # [meses[i.dt.strftime("%m")] for i in dados["Data"]]
-
+        dados["Mes_nome"] = [meses[i] for i in dados["Mês"]]
         f, ax = plt.subplots(figsize=(15, 6))
 
+        ordem_meses = [
+            "Jan",
+            "Fev",
+            "Mar",
+            "Abr",
+            "Mai",
+            "Jun",
+            "Jul",
+            "Ago",
+            "Set",
+            "Out",
+            "Nov",
+            "Dez",
+        ]
         p = sns.barplot(
-            x="Mês", y="Valor", data=dados, hue="Tipo", legend=True, errorbar=None
+            x="Mes_nome",
+            y="Valor",
+            data=dados,
+            order=ordem_meses,
+            hue="Tipo",
+            legend=True,
+            errorbar=None,
         )
         for i in range(0, len(p.containers)):
             ax.bar_label(p.containers[i], label_type="center")
 
+        plt.title(f"Gastos do Ano de {ano}")
+        plt.xlabel("Meses")
+        plt.ylabel("Valor Gasto")
+        plt.yticks([])
+        sns.despine(left=True, right=True, top=True)
         plt.show()
 
     def grafico_mes(self, mes, ano):
@@ -88,5 +113,8 @@ class Controlador:
             12: "Dez",
         }
         plt.title(f"Gastos do mês {meses[mes]}/{ano}")
-        sns.despine(left=True, right=True, bottom=True, top=True)
+        plt.xlabel("Tipos")
+        plt.ylabel("Valor Gasto")
+        plt.yticks([])
+        sns.despine(left=True, right=True, top=True)
         plt.show()

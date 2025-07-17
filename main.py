@@ -16,7 +16,7 @@ if __name__ == "__main__":
                 print("Gasto foi realizado hoje? (s/n)")
                 hoje = input()
                 if hoje == "s" or hoje == "S":
-                    data = datetime.date.today()
+                    data = datetime.datetime.today()
                 else:
                     numero_valido = True
                     while numero_valido:
@@ -27,7 +27,7 @@ if __name__ == "__main__":
                             mes = int(input())
                             print("Qual foi o ano?")
                             ano = int(input())
-                            data = datetime.date(ano, mes, dia)
+                            data = datetime.datetime(ano, mes, dia)
                             numero_valido = False
                         except:
                             print("Número inválido")
